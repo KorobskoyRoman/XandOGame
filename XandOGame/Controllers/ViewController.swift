@@ -12,6 +12,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var alertView: UIView!
+    @IBOutlet weak var nameErrorLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,8 +29,13 @@ class ViewController: UIViewController {
         alertView.layer.shadowOffset = .zero
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        nameField.resignFirstResponder()
+    @IBAction func startButtonClicked(_ sender: UIButton) {
+        guard !nameField.text!.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+        
+        let controller = storyboard?.instantiateViewController(withIdentifier: "gameVC") as! GameViewController
+        controller.playerName = nameField.text
+        controller.modalPresentationStyle = .fullScreen
+        self.present(controller, animated: true, completion: nil)
     }
 }
 
